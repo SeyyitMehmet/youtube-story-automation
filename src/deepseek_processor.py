@@ -19,46 +19,54 @@ class DeepSeekProcessor:
             return None
         
         prompt = f"""
-Aşağıdaki Türkçe hikayeyi analiz et ve 15 sahneye böl. Her sahne için:
-- Orijinal hikayeden başlangıç ve bitiş karakteri (character index)
-- Görsel prompt (İngilizce, AI image generation için)
-- Karakter tanımı (tutarlılık için)
+Sen bir profesyonel hikaye analiz uzmanısın. Verilen Türkçe hikayeyi TAM OLARAK 20 eşit sahneye böleceksin.
 
-ÖNEMLİ: 
-1. Ses seslendirmesi için ORİJİNAL HİKAYE METNİ kullanılacak!
-2. "start_char" ve "end_char" ile orijinal metinden hangi bölümün okunacağını belirt
-3. Tam olarak 20 sahne oluştur
-4. Her sahne yaklaşık eşit uzunlukta olsun
-5. ÖNEMLI: Sahneleri MUTLAKA kelime sınırında kes! Kelimeler yarım kalmasın.
-   Örnek YANLIŞ: "aca" | "ba" ✗
-   Örnek DOĞRU: "acaba" | "sonraki kelime" ✓
-6. Tercihen cümle sonlarında (.!?) bitir, yoksa en azından boşluk/virgülde kes
+GÖREVİN:
+Aşağıdaki hikayeyi analiz et ve 20 sahneye böl. Her sahne için şunları belirle:
+- Orijinal hikayeden başlangıç karakteri (start_char)
+- Orijinal hikayeden bitiş karakteri (end_char)
+- İngilizce görsel prompt (AI image generation için)
+- Sahnedeki karakterler (tutarlılık için)
 
-KARAKTER TUTARLILIĞI: Ana karakterler için tutarlı fiziksel tanım kullan.
-Örnek: "young girl with red hood, blonde hair, blue eyes, innocent face"
-Her sahnede AYNI karakter tanımını kullan!
+KRİTİK KURALLAR:
+1. **MUTLAKA 20 SAHNE OLUŞTUR** - Eksik veya fazla olmasın!
+2. **KELİME SINIRINDA KES**: Kesinlikle kelime ortasında kesme yapma!
+   ❌ YANLIŞ: "aca" | "ba" 
+   ✅ DOĞRU: "acaba" | "sonraki"
+3. **CÜMLE SONLARI TERCİH EDİLİR**: Mümkünse (.!?) işaretlerinde bitir
+4. **EŞİT UZUNLUK**: Her sahne yaklaşık {len(story_text) // 20} karakter civarı olmalı
+5. **TAM HİKAYE**: Tüm hikaye metni sahnelere dağıtılmalı, hiçbir bölüm atlanmamalı!
+
+KARAKTER TUTARLILIĞI:
+- Ana karakterler için AYNI fiziksel tanımı her sahnede kullan
+- Örnek: "young girl with long blonde hair, blue eyes, red winter coat, innocent face"
+- Karakter açıklaması değişmemeli, sadece sahne ortamı değişmeli
 
 Hikaye (Toplam {len(story_text)} karakter):
 {story_text}
 
-JSON formatında yanıt ver:
+YANIT FORMATI (Sadece JSON):
 {{
-    "story_title": "Kısa hikaye başlığı",
+    "story_title": "Hikaye başlığı",
     "main_characters": [
-        {{"name": "Karakter Adı", "description": "Consistent visual description"}}
+        {{
+            "name": "Karakter ismi",
+            "description": "Tutarlı İngilizce fiziksel tanım (tüm sahnelerde aynı olacak)"
+        }}
     ],
     "scenes": [
         {{
             "scene_number": 1,
             "start_char": 0,
             "end_char": 250,
-            "image_prompt": "English visual prompt with consistent character description",
-            "characters": ["Ana karakterler listesi"]
-        }}
+            "image_prompt": "Detailed English visual prompt with consistent character description + scene environment",
+            "characters": ["Karakter isimleri"]
+        }},
+        ... (toplam 20 sahne)
     ]
 }}
 
-Sadece JSON yanıt ver!
+SADECE JSON YANIT VER, BAŞKA AÇIKLAMA EKLEME!
 """
         
         try:
@@ -72,15 +80,15 @@ Sadece JSON yanıt ver!
                 "messages": [
                     {
                         "role": "system", 
-                        "content": "Sen bir hikaye analiz uzmanısın. Hikayeleri kısa sahnelere böler ve sadece JSON yanıt verirsin."
+                        "content": "Sen profesyonel bir hikaye analiz ve sahne bölme uzmanısın. Hikayeleri TAM OLARAK 20 eşit sahneye böler, kelime sınırlarına dikkat eder ve sadece JSON formatında yanıt verirsin. Asla hikayenin bir kısmını atlama, tüm metni kullan!"
                     },
                     {
                         "role": "user",
                         "content": prompt
                     }
                 ],
-                "temperature": 0.5,  # Daha tutarlı yanıt için düşürüldü
-                "max_tokens": 4000,  # Uzun hikayeler için artırıldı
+                "temperature": 0.3,  # Daha tutarlı ve eksiksiz yanıt için düşürüldü
+                "max_tokens": 16000,  # Uzun hikayeler için yüksek limit (token kullanımı ihtiyaca göre)
                 "stream": False
             }
             
