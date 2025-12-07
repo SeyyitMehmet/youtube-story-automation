@@ -1,220 +1,221 @@
 # 🎬 YouTube Hikaye Otomasyonu
 
-AI destekli otomatik hikaye anlatım video üretim sistemi. Metinsel hikayeleri sesli anlatım ve görseller ile videoya dönüştürür.
+**AI destekli otomatik hikaye-video dönüştürme sistemi.**
 
-## 🌟 Özellikler
+Metinsel hikayeleri profesyonel sesli anlatım ve AI görselleri ile otomatik videoya dönüştürür.
 
-- 📚 **Hikaye İşleme**: Metinsel hikayeleri sahnelere böler (AI destekli)
-- 🎤 **Sesli Anlatım**: 
-  - **OpenAI TTS-1 HD**: Yüksek kaliteli, doğal seslendirme (6 farklı ses)
-  - **gTTS**: Ücretsiz Google TTS
-  - **pyttsx3**: Offline TTS
-- 🎨 **AI Görseller**: 
-  - **Replicate (FLUX Schnell)**: Yüksek kaliteli görseller
-  - **Pollinations.ai**: Ücretsiz alternatif
-  - **DeepSeek**: Hikaye analizi ve sahne oluşturma
-- 🎬 **Video Üretimi**: 
-  - MoviePy ile profesyonel montaj
-  - Ken Burns zoom efektleri
-  - Fon müziği desteği
-  - Otomatik klasör temizleme
-- 📤 **YouTube Entegrasyonu**: Otomatik video yükleme (isteğe bağlı)
-- 💰 **Esnek Maliyet**: Ücretsiz ve premium API seçenekleri
+---
 
-## 🚀 Hızlı Başlangıç
+## 🎯 Ne Yapar?
 
-### 1. Kurulum
+```
+📝 Hikaye (.txt) → 🎬 Video (.mp4)
+```
+
+**Örnek:** "Kibritçi Kız" hikayesini yüklersiniz → 5-10 dakikalık profesyonel video oluşturur.
+
+---
+
+## ⚡ Hızlı Başlangıç (Google Colab)
+
+**En Kolay Yol:** Google Colab ile tarayıcıdan çalıştırın!
+
+1. **Notebook'u açın:** [youtube_automation_full.ipynb](./youtube_automation_full.ipynb)
+2. **Google Colab'da aç** → "Open in Colab" butonuna tıklayın
+3. **API anahtarlarını ekle** (OpenAI, DeepSeek, Replicate)
+4. **Run All** yap → Bilgisayarı kapat, işlem devam eder! ☕
+
+**Detaylı adımlar notebook içinde.**
+
+---
+
+## 🎨 Özellikler
+
+### ✨ AI Destekli İşlem Akışı
+
+```
+1. 📖 Hikaye Analizi (DeepSeek AI)
+   → Hikayeyi otomatik sahnelere böler
+   → Karakterleri ve ortamları tanımlar
+   → Her sahne için prompt oluşturur
+
+2. 🎤 Sesli Anlatım (OpenAI TTS-1 HD)
+   → Profesyonel Türkçe ses
+   → Doğal tonlama
+   → 6 farklı ses seçeneği
+
+3. 🖼️ Görsel Üretimi (Replicate FLUX)
+   → Her sahne için AI görsel
+   → Karakter tutarlılığı
+   → 1920x1080 çözünürlük
+
+4. 🎥 Video Montajı (MoviePy)
+   → Ken Burns zoom efektleri
+   → Fon müziği desteği
+   → Otomatik senkronizasyon
+```
+
+---
+
+## 📊 Üretilen Video Özellikleri
+
+**Örnek Çıktı (5 sahneli hikaye):**
+
+| Özellik | Değer |
+|---------|-------|
+| **Çözünürlük** | 1920x1080 (Full HD) |
+| **FPS** | 24 fps |
+| **Sahne Sayısı** | 5-8 sahne (hikayeye göre) |
+| **Görsel/Sahne** | 1 AI üretimi görsel |
+| **Ses** | OpenAI TTS-1 HD (Türkçe) |
+| **Video Süresi** | 5-10 dakika (metin uzunluğuna göre) |
+| **Dosya Boyutu** | ~40-60 MB |
+| **Efektler** | Ken Burns zoom, cross-fade geçişleri |
+| **Müzik** | Opsiyonel fon müziği |
+
+**Maliyet (hikaye başına):**
+- OpenAI TTS: ~$0.50
+- Replicate FLUX: ~$0.015 (5 görsel)
+- **Toplam: ~$0.52/hikaye**
+
+---
+
+## 💻 Yerel Bilgisayarda Çalıştırma (Opsiyonel)
+
+### Kurulum
 
 ```bash
 # Repository'i klonlayın
-git clone <repo-url>
+git clone https://github.com/SeyyitMehmet/youtube-story-automation.git
 cd youtube-story-automation
 
-# Python bağımlılıklarını kurun
+# Virtual environment oluşturun
+python -m venv .venv
+.venv\Scripts\activate  # Windows
+source .venv/bin/activate  # Linux/Mac
+
+# Paketleri kurun
 pip install -r requirements.txt
 ```
 
-### 2. API Anahtarları
+### API Anahtarlarını Ayarlayın
 
-`.env` dosyasını düzenleyin:
+`.env.example` dosyasını `.env` olarak kopyalayın ve API anahtarlarınızı ekleyin:
 
 ```env
-# DeepSeek API (hikaye analizi için - gerekli)
-DEEPSEEK_API_KEY=sk-xxxxxxxxxxxxxxxx
-
-# OpenAI API (TTS-1 HD seslendirme - isteğe bağlı)
-OPENAI_API_KEY=sk-proj-xxxxxxxxxxxxxxxx
-
-# Replicate API (FLUX Schnell görseller - isteğe bağlı)
-REPLICATE_API_KEY=r8_xxxxxxxxxxxxxxxx
-
-# YouTube API (otomatik yükleme için - isteğe bağlı)
-YOUTUBE_CLIENT_ID=your_client_id_here
-YOUTUBE_CLIENT_SECRET=your_client_secret_here
+DEEPSEEK_API_KEY=sk-...
+OPENAI_API_KEY=sk-proj-...
+REPLICATE_API_KEY=r8_...
 ```
 
-**API Kullanım Kılavuzları:**
-- 📖 [OpenAI TTS-1 HD Kullanımı](docs/OPENAI_TTS_KULLANIMI.md)
-- 📖 [DeepSeek API Kurulumu](docs/DEEPSEEK_SETUP.md)
-- 📖 [Replicate API Kullanımı](docs/REPLICATE_SETUP.md)
-
-### 3. Çalıştırma
+### Çalıştırın
 
 ```bash
 python main.py
 ```
 
-## 📋 Kullanım
+---
 
-### Menü Seçenekleri
-
-1. **Video Oluştur (Yerel)**: Sadece video dosyası oluşturur
-2. **Video Oluştur + YouTube**: Video oluşturur ve YouTube'a yükler
-3. **Sistem Kontrolü**: Klasörler ve ayarları kontrol eder
-4. **API Testleri**: Tüm API'leri test eder
-
-### Örnek: Kibritçi Kız Hikayesi
-
-Program varsayılan olarak `stories/kibritci_kiz.txt` dosyasındaki hikayeyi işler. Kendi hikayenizi eklemek için:
-
-1. `stories/` klasörüne hikaye dosyanızı ekleyin
-2. `main.py`'de dosya adını değiştirin veya fonksiyonu kendi dosyanızla çağırın
-
-## 🛠 Teknik Detaylar
-
-### Proje Yapısı
+## 📁 Proje Yapısı
 
 ```
 youtube-story-automation/
-├── stories/           # Hikaye dosyaları
-├── audio/            # Üretilen ses dosyaları
-├── images/           # Üretilen görseller
-├── videos/           # Son video dosyaları
-├── src/              # Ana kod modülleri
-│   ├── story_processor.py    # Hikaye işleme
-│   ├── tts_generator.py      # Ses üretimi
-│   ├── image_generator.py    # Görsel üretimi
-│   ├── video_creator.py      # Video montajı
-│   └── youtube_uploader.py   # YouTube yükleme
-├── config/           # Konfigürasyon
-├── main.py          # Ana program
-└── requirements.txt # Python bağımlılıkları
+├── src/                          # Ana modüller
+│   ├── story_processor.py        # DeepSeek ile hikaye analizi
+│   ├── openai_tts_generator.py   # OpenAI TTS-1 HD
+│   ├── multi_image_generator.py  # FLUX görsel üretimi
+│   ├── character_manager.py      # Karakter tutarlılığı
+│   └── video_creator.py          # MoviePy video montajı
+│
+├── config/                       # Ayarlar
+│   ├── config.example.py         # Örnek config
+│   └── config.py                 # Gerçek config (gitignore)
+│
+├── stories/                      # Hikaye dosyaları (.txt)
+├── audio/                        # Üretilen sesler (temp)
+├── images/                       # Üretilen görseller (temp)
+├── videos/                       # Üretilen videolar
+├── musics/                       # Fon müzikleri
+│
+├── main.py                       # Yerel çalıştırma scripti
+├── youtube_automation_full.ipynb # Google Colab notebook
+├── requirements.txt              # Python paketleri
+├── .env.example                  # Örnek environment variables
+└── README.md                     # Bu dosya
 ```
-
-### Teknolojiler
-
-- **Python 3.8+**
-- **TTS**: gTTS (ücretsiz) / pyttsx3 (offline)
-- **Video**: MoviePy + FFmpeg
-- **Görsel**: Pillow + DeepSeek API
-- **YouTube**: Google APIs
-
-## 💰 Maliyet Analizi
-
-### Ücretsiz Seçenekler
-- **TTS**: gTTS (Google) - Ücretsiz
-- **Görseller**: Placeholder görseller - Ücretsiz
-- **Video**: MoviePy + FFmpeg - Ücretsiz
-
-### Ücretli Seçenekler (İsteğe Bağlı)
-- **DeepSeek API**: ~$0.002 per görsel
-- **YouTube API**: Ücretsiz (quota limiti var)
-
-### Örnek Maliyet (5 dakikalık video)
-- Ücretsiz yöntem: **$0**
-- AI görselli yöntem: **~$0.012** (6 görsel)
-
-## 🔧 Konfigürasyon
-
-`config/config.py` dosyasında tüm ayarları özelleştirebilirsiniz:
-
-```python
-# TTS Ayarları
-TTS_ENGINE = "gtts"  # veya "pyttsx3"
-TTS_LANGUAGE = "tr"
-TTS_SPEED = 150
-
-# Video Ayarları
-VIDEO_WIDTH = 1920
-VIDEO_HEIGHT = 1080
-VIDEO_FPS = 24
-
-# Görsel Ayarları
-IMAGE_STYLE = "cinematic, storytelling, fairy tale illustration"
-```
-
-## 📚 API Kurulumları
-
-### DeepSeek API
-1. [DeepSeek Platform](https://platform.deepseek.com/) hesabı oluşturun
-2. API key alın
-3. `.env` dosyasına ekleyin
-
-### YouTube API
-1. [Google Cloud Console](https://console.cloud.google.com/) projesine gidin
-2. YouTube Data API v3'ü etkinleştirin
-3. OAuth2 credentials oluşturun
-4. Client ID ve Secret'ı `.env` dosyasına ekleyin
-
-## 🐛 Sorun Giderme
-
-### Yaygın Hatalar
-
-**FFmpeg Hatası**:
-```bash
-# Windows
-# FFmpeg'i indirin ve PATH'e ekleyin
-
-# Linux/Mac
-sudo apt install ffmpeg  # Ubuntu
-brew install ffmpeg      # macOS
-```
-
-**Python Modül Hatası**:
-```bash
-pip install -r requirements.txt
-```
-
-**TTS Hatası**:
-- İnternet bağlantısını kontrol edin (gTTS için)
-- Offline için `TTS_ENGINE = "pyttsx3"` kullanın
-
-### Log Dosyaları
-
-Program çalışırken renkli çıktılar verir:
-- ✅ Başarılı işlemler
-- ⚠ Uyarılar
-- ❌ Hatalar
-
-## 🤝 Katkıda Bulunma
-
-1. Fork edin
-2. Feature branch oluşturun (`git checkout -b feature/YeniOzellik`)
-3. Commit edin (`git commit -am 'Yeni özellik eklendi'`)
-4. Push edin (`git push origin feature/YeniOzellik`)
-5. Pull Request oluşturun
-
-## 📄 Lisans
-
-Bu proje MIT lisansı altında yayınlanmıştır.
-
-## 🎯 Gelecek Özellikler
-
-- [ ] Çoklu hikaye batch işleme
-- [ ] Farklı AI görsel servisler (DALL-E, Midjourney)
-- [ ] Çoklu ses seçenekleri
-- [ ] Video efektleri ve geçişler
-- [ ] Subtitle/altyazı desteği
-- [ ] Çoklu dil desteği
-- [ ] Web arayüzü
-
-## 📞 İletişim
-
-Sorularınız için:
-- Issues açın
-- Pull request gönderin
-- Dokümantasyonu inceleyin
 
 ---
 
-🎬 **Happy Storytelling!** 🎬
+## 🔑 Gerekli API Anahtarları
+
+### DeepSeek API (Hikaye Analizi)
+- **Nereden:** https://platform.deepseek.com/api_keys
+- **Maliyet:** Ücretsiz deneme kredisi
+- **Kullanım:** Hikayeyi sahnelere böler, karakter analizi
+
+### OpenAI API (Sesli Anlatım)
+- **Nereden:** https://platform.openai.com/api-keys
+- **Maliyet:** ~$15/milyon karakter (TTS-1 HD)
+- **Kullanım:** Profesyonel Türkçe ses üretimi
+
+### Replicate API (Görsel Üretimi)
+- **Nereden:** https://replicate.com/account/api-tokens
+- **Maliyet:** ~$0.003/görsel (FLUX Schnell)
+- **Kullanım:** AI ile hikaye görselleri
+
+---
+
+## 📊 Performans & Süre
+
+**5 sahneli bir hikaye için:**
+
+| İşlem | Süre | Maliyet |
+|-------|------|---------|
+| Hikaye analizi (DeepSeek) | ~30 saniye | $0.001 |
+| Ses üretimi (OpenAI TTS) | ~2 dakika | $0.50 |
+| Görseller (Replicate FLUX) | ~5 dakika | $0.015 |
+| Video montajı (MoviePy) | ~3 dakika | Ücretsiz |
+| **TOPLAM** | **~10-12 dakika** | **~$0.52** |
+
+**10 hikaye işleme:**
+- Toplam süre: ~2 saat
+- Toplam maliyet: ~$5.20
+
+---
+
+## 🆘 Sorun Giderme
+
+### "No module named 'pyttsx3'" hatası
+- Google Colab'da normal, pyttsx3 Windows'a özeldir
+- Sistem otomatik OpenAI TTS kullanır
+
+### MoviePy import hatası
+```bash
+pip install moviepy==2.2.1
+```
+
+### API rate limit
+- `config.py` içinde `REPLICATE_RATE_LIMIT_DELAY` değerini artırın
+
+### Video oluşmuyor
+- FFmpeg kurulu mu kontrol edin: `ffmpeg -version`
+- Windows: https://ffmpeg.org/download.html
+
+---
+
+## 📝 Lisans
+
+MIT License - Detaylar için `LICENSE` dosyasına bakın.
+
+---
+
+## 🙏 Teşekkürler
+
+- OpenAI (TTS-1 HD API)
+- DeepSeek (Hikaye analizi)
+- Replicate (FLUX modelleri)
+- MoviePy (Video işleme)
+
+---
+
+**Made with ❤️ and AI**
