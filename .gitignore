@@ -1,0 +1,61 @@
+# ====================================================================
+# .gitignore - GitHub'a yüklenmeyecek dosyalar
+# ====================================================================
+
+# ===== GİZLİ BİLGİLER (API KEYS) =====
+.env
+.env.local
+*.env
+config/config.py
+
+# ===== PYTHON =====
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+ENV/
+env/
+
+# ===== ÜRETİLEN DOSYALAR =====
+audio/
+images/
+videos/
+*.mp3
+*.mp4
+*.wav
+*.png
+*.jpg
+*.jpeg
+
+# ===== LOG DOSYALARI =====
+*.log
+logs/
+automation_log.json
+progress.json
+
+# ===== GEÇİCİ DOSYALAR =====
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# ===== IDE/EDITOR =====
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# ===== JUPYTER NOTEBOOK =====
+.ipynb_checkpoints/
+*.ipynb
+
+# ===== HİKAYE DOSYALARI (opsiyonel - istemezsen sil) =====
+# stories/*.txt
+
+# ===== MÜZİK DOSYALARI =====
+musics/*.mp3
+musics/*.wav

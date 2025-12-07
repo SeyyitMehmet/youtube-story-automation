@@ -1,0 +1,31 @@
+# Core dependencies
+requests==2.31.0
+python-dotenv==1.0.0
+
+# Text-to-Speech (ücretsiz alternatifler)
+pyttsx3==2.90  # Offline TTS
+gTTS==2.4.0    # Google TTS (ücretsiz)
+
+# OpenAI API (TTS-1 HD - Premium seslendirme)
+openai>=1.0.0  # OpenAI Python SDK
+
+# Image generation
+Pillow==10.0.1
+requests==2.31.0
+
+# Video processing
+moviepy==1.0.3
+opencv-python==4.8.1.78
+
+# YouTube upload
+google-auth==2.23.4
+google-auth-oauthlib==1.1.0
+google-auth-httplib2==0.1.1
+google-api-python-client==2.103.0
+
+# Audio processing
+pydub==0.25.1
+
+# Utility
+tqdm==4.66.1
+colorama==0.4.6
