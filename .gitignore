@@ -51,7 +51,7 @@ Thumbs.db
 
 # ===== JUPYTER NOTEBOOK =====
 .ipynb_checkpoints/
-*.ipynb
+# *.ipynb  # Colab notebook'u GitHub'da tutuyoruz!
 
 # ===== HİKAYE DOSYALARI (opsiyonel - istemezsen sil) =====
 # stories/*.txt
