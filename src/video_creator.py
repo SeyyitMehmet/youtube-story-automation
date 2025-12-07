@@ -259,15 +259,23 @@ class VideoCreator:
             return ColorClip(size=(1920, 1080), color=(25, 25, 50)).with_duration(duration)
     
     def _add_background_music(self, video_clip, volume: float = 0.05):
-        """Video'ya fon müziği ekler"""
+        """Video'ya fon müziği ekler (rastgele seçim)"""
         try:
-            background_music_path = os.path.join("musics", "fon1.mp3")
+            import random
+            import glob
             
-            if not os.path.exists(background_music_path):
-                print(f"⚠ Fon müziği bulunamadı: {background_music_path}")
+            # musics/ klasöründeki tüm .mp3 dosyalarını bul
+            music_files = glob.glob(os.path.join("musics", "*.mp3"))
+            
+            if not music_files:
+                print(f"⚠ musics/ klasöründe hiç müzik dosyası bulunamadı!")
                 return video_clip
             
-            print(f"🎵 Fon müziği ekleniyor: {background_music_path} (ses seviyesi: %{int(volume*100)})")
+            # Rastgele bir müzik seç
+            background_music_path = random.choice(music_files)
+            music_name = os.path.basename(background_music_path)
+            
+            print(f"🎵 Fon müziği ekleniyor: {music_name} (ses seviyesi: %{int(volume*100)})")
             
             # Fon müziğini yükle
             bg_music = AudioFileClip(background_music_path)
