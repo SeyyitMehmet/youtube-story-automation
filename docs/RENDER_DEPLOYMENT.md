@@ -26,12 +26,12 @@ Bu rehber projenizi Render.com'da 7/24 çalışır hale getirmenizi sağlar.
 
 ---
 
-## 2️⃣ Yeni Background Worker Oluşturun
+## 2️⃣ Yeni Cron Job Oluşturun
 
 ### Adım 1: Yeni Servis Ekleyin
 
 1. Render.com Dashboard'da **"New +"** butonuna tıklayın
-2. **"Background Worker"** seçin
+2. **"Cron Job"** seçin ⚠️ (Background Worker DEĞİL!)
 3. GitHub repository'nizi seçin:
    - **Repository:** `SeyyitMehmet/youtube-story-automation`
    - **Branch:** `main`
@@ -40,18 +40,33 @@ Bu rehber projenizi Render.com'da 7/24 çalışır hale getirmenizi sağlar.
 
 | Alan | Değer |
 |------|-------|
-| **Name** | `youtube-story-worker` |
+| **Name** | `youtube-story-cron` |
 | **Region** | Frankfurt (Türkiye için en yakın) |
 | **Branch** | `main` |
 | **Build Command** | `pip install -r requirements.txt` |
-| **Start Command** | `python render_worker.py` |
+| **Start Command** | `python cron_worker.py` |
+| **Schedule** | `0 */6 * * *` (Her 6 saatte bir) |
 
-### Adım 3: Plan Seçin
+### Adım 3: Çalışma Zamanlaması
 
-- **Free Plan** seçin
-- ✅ 750 saat/ay ücretsiz (yeterli)
+**Schedule** için cron formatı:
+
+| Zamanlama | Cron Kodu | Açıklama |
+|-----------|-----------|----------|
+| Her 6 saatte bir | `0 */6 * * *` | 00:00, 06:00, 12:00, 18:00 |
+| Her 3 saatte bir | `0 */3 * * *` | Her 3 saatte |
+| Her 1 saatte | `0 * * * *` | Her saat başı |
+| Günde 1 kez | `0 0 * * *` | Gece yarısı |
+| Günde 3 kez | `0 9,15,21 * * *` | 09:00, 15:00, 21:00 |
+
+**Önerim:** `0 */6 * * *` (günde 4 kez - yeterli)
+
+### Adım 4: Plan Seçin
+
+- **✅ FREE PLAN** (Otomatik seçili)
+- ✅ Tamamen ücretsiz
+- ✅ Sınırsız çalıştırma
 - ✅ 512 MB RAM
-- ⚠️ 15 dakika hareketsizlikte durabilir (ama bizimki sürekli çalışır)
 
 ---
 
