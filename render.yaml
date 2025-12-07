@@ -1,0 +1,43 @@
+services:
+  # ====================================================================
+  # BACKGROUND WORKER - 7/24 Çalışan Hikaye İşleme Servisi
+  # ====================================================================
+  - type: worker
+    name: youtube-story-worker
+    runtime: python
+    region: frankfurt  # En yakın sunucu (Türkiye için)
+    plan: free  # Ücretsiz plan (750 saat/ay)
+    
+    # GitHub entegrasyonu
+    repo: https://github.com/SeyyitMehmet/youtube-story-automation
+    branch: main
+    
+    # Başlangıç komutu
+    buildCommand: pip install -r requirements.txt
+    startCommand: python render_worker.py
+    
+    # Otomatik deploy
+    autoDeploy: true
+    
+    # Environment Variables (Render.com dashboard'dan eklenecek)
+    envVars:
+      - key: OPENAI_API_KEY
+        sync: false  # Manuel eklenecek
+      
+      - key: DEEPSEEK_API_KEY
+        sync: false
+      
+      - key: REPLICATE_API_KEY
+        sync: false
+      
+      - key: TELEGRAM_BOT_TOKEN
+        sync: false
+      
+      - key: TELEGRAM_CHAT_ID
+        sync: false
+      
+      - key: PYTHON_VERSION
+        value: 3.11.0  # Render.com'da çalışan Python sürümü
+      
+      - key: STORIES_CHECK_INTERVAL
+        value: 300  # Her 5 dakikada bir yeni hikaye kontrol et (saniye)
