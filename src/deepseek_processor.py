@@ -76,7 +76,7 @@ SADECE JSON YANIT VER, BAŞKA AÇIKLAMA EKLEME!
             }
             
             payload = {
-                "model": "deepseek-reasoner",
+                "model": "deepseek-chat",
                 "messages": [
                     {
                         "role": "system", 
@@ -88,7 +88,7 @@ SADECE JSON YANIT VER, BAŞKA AÇIKLAMA EKLEME!
                     }
                 ],
                 "temperature": 0.3,
-                "max_tokens": 16000,  # DeepSeek-reasoner 64K'ya kadar destekler
+                "max_tokens": 8000,  # deepseek-chat maximum 8K token
                 "top_p": 0.95,
                 "stream": False
             }
