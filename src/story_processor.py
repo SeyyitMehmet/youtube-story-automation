@@ -24,10 +24,10 @@ class StoryProcessor:
         except FileNotFoundError:
             raise FileNotFoundError(f"Hikaye dosyası bulunamadı: {filepath}")
     
-    def split_into_scenes(self, story_text: str) -> List[Dict[str, str]]:
-        """Hikayeyi sahnelere böler - AI destekli veya manuel"""
+    def split_into_scenes(self, story_text: str) -> Optional[List[Dict[str, str]]]:
+        """Hikayeyi sahnelere böler - AI destekli (AI zorunlu)"""
         
-        # Önce AI ile analiz etmeyi dene
+        # AI ile analiz et
         if self.use_ai_analysis:
             print("🤖 DeepSeek AI ile hikaye analizi yapılıyor...")
             ai_result = self.deepseek_processor.analyze_story_with_ai(story_text)
@@ -38,60 +38,30 @@ class StoryProcessor:
                 self.ai_response = ai_result
                 return ai_result['scenes']
             else:
-                print("⚠ AI analizi başarısız, manuel işleme geçiliyor...")
+                print("⚠ AI analizi başarısız...")
         
-        # Manuel işleme (fallback)
+        # AI çalışmazsa None döndür (detaylı hata mesajı ile)
         return self._manual_scene_splitting(story_text)
     
-    def _manual_scene_splitting(self, story_text: str) -> List[Dict[str, str]]:
-        """Manuel sahne bölme - 20 sahneye böl, orijinal metni kullan"""
+    def _manual_scene_splitting(self, story_text: str) -> Optional[List[Dict[str, str]]]:
+        """AI çalışmazsa uyarı ver ve None döndür"""
         
-        # Hikayeyi 20 eşit parçaya böl
-        total_chars = len(story_text)
-        chars_per_scene = total_chars // 20
+        print("\n" + "="*70)
+        print("❌ HATA: DeepSeek AI analizi çalışmadı!")
+        print("="*70)
+        print("\n📋 Olası Nedenler:")
+        print("   1. DEEPSEEK_API_KEY eksik veya hatalı")
+        print("   2. DeepSeek API sunucusu yanıt vermiyor")
+        print("   3. API rate limit aşıldı")
+        print("   4. Model parametreleri hatalı (max_tokens, vb.)")
+        print("\n🔧 Çözümler:")
+        print("   • Colab Secrets'da DEEPSEEK_API_KEY'i kontrol edin")
+        print("   • DeepSeek API durumu: https://status.deepseek.com/")
+        print("   • API anahtarınızı yenileyin: https://platform.deepseek.com/")
+        print("\n⚠️  Manuel prompt sistemi devre dışı - AI zorunludur!")
+        print("="*70 + "\n")
         
-        scenes = []
-        for i in range(20):
-            start_char = i * chars_per_scene
-            
-            # Son sahne için tüm kalan metni al
-            if i == 19:
-                end_char = total_chars
-            else:
-                # Cümle sonunda bitir (nokta, soru işareti, ünlem)
-                end_char = start_char + chars_per_scene
-                
-                # Önce cümle sonunu bul
-                sentence_end = end_char
-                for j in range(end_char, min(end_char + 200, total_chars)):
-                    if story_text[j] in '.!?':
-                        sentence_end = j + 1
-                        break
-                
-                # Eğer çok uzaksa, en azından kelime sınırında kes
-                if sentence_end - end_char > 100:
-                    # Kelime sınırı bul (boşluk, virgül, noktalama)
-                    for j in range(end_char, min(end_char + 50, total_chars)):
-                        if story_text[j] in ' \n\t,;:':
-                            end_char = j + 1
-                            break
-                else:
-                    end_char = sentence_end
-            
-            scene_text = story_text[start_char:end_char].strip()
-            
-            scene = {
-                'scene_number': i + 1,
-                'text': scene_text,
-                'start_char': start_char,
-                'end_char': end_char,
-                'image_prompt': self._generate_image_prompt(scene_text, i + 1),
-                'characters': []
-            }
-            scenes.append(scene)
-        
-        print(f"📊 Manuel bölme: 20 sahne oluşturuldu (kelime sınırlarında kesildi)")
-        return scenes
+        return None
     
     def _estimate_duration(self, text: str) -> float:
         """Metne göre tahmini ses süresi (saniye)"""
