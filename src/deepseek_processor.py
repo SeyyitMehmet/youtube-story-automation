@@ -19,22 +19,22 @@ class DeepSeekProcessor:
             return None
         
         prompt = f"""
-Sen bir profesyonel hikaye analiz uzmanısın. Verilen Türkçe hikayeyi TAM OLARAK 20 eşit sahneye böleceksin.
+Sen bir profesyonel hikaye analiz uzmanısın. Verilen Türkçe hikayeyi TAM OLARAK 15 eşit sahneye böleceksin.
 
 GÖREVİN:
-Aşağıdaki hikayeyi analiz et ve 20 sahneye böl. Her sahne için şunları belirle:
+Aşağıdaki hikayeyi analiz et ve 15 sahneye böl. Her sahne için şunları belirle:
 - Orijinal hikayeden başlangıç karakteri (start_char)
 - Orijinal hikayeden bitiş karakteri (end_char)
 - İngilizce görsel prompt (AI image generation için)
 - Sahnedeki karakterler (tutarlılık için)
 
 KRİTİK KURALLAR:
-1. **MUTLAKA 20 SAHNE OLUŞTUR** - Eksik veya fazla olmasın!
+1. **MUTLAKA 15 SAHNE OLUŞTUR** - Eksik veya fazla olmasın!
 2. **KELİME SINIRINDA KES**: Kesinlikle kelime ortasında kesme yapma!
    ❌ YANLIŞ: "aca" | "ba" 
    ✅ DOĞRU: "acaba" | "sonraki"
 3. **CÜMLE SONLARI TERCİH EDİLİR**: Mümkünse (.!?) işaretlerinde bitir
-4. **EŞİT UZUNLUK**: Her sahne yaklaşık {len(story_text) // 20} karakter civarı olmalı
+4. **EŞİT UZUNLUK**: Her sahne yaklaşık {len(story_text) // 15} karakter civarı olmalı
 5. **TAM HİKAYE**: Tüm hikaye metni sahnelere dağıtılmalı, hiçbir bölüm atlanmamalı!
 
 KARAKTER TUTARLILIĞI:
@@ -62,7 +62,7 @@ YANIT FORMATI (Sadece JSON):
             "image_prompt": "Detailed English visual prompt with consistent character description + scene environment",
             "characters": ["Karakter isimleri"]
         }},
-        ... (toplam 20 sahne)
+        ... (toplam 15 sahne)
     ]
 }}
 
@@ -80,7 +80,7 @@ SADECE JSON YANIT VER, BAŞKA AÇIKLAMA EKLEME!
                 "messages": [
                     {
                         "role": "system", 
-                        "content": "Sen profesyonel bir hikaye analiz ve sahne bölme uzmanısın. Hikayeleri TAM OLARAK 20 eşit sahneye böler, kelime sınırlarına dikkat eder ve sadece JSON formatında yanıt verirsin. Asla hikayenin bir kısmını atlama, tüm metni kullan!"
+                        "content": "Sen profesyonel bir hikaye analiz ve sahne bölme uzmanısın. Hikayeleri TAM OLARAK 15 eşit sahneye böler, kelime sınırlarına dikkat eder ve sadece JSON formatında yanıt verirsin. Asla hikayenin bir kısmını atlama, tüm metni kullan!"
                     },
                     {
                         "role": "user",

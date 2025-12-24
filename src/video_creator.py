@@ -87,10 +87,11 @@ class VideoCreator:
             # Fon müziği ekle
             final_video = self._add_background_music(final_video, volume=0.05)
             
-            # Video dosyasını kaydet - KISA DOSYA ADI (Windows 260 karakter limiti)
-            import hashlib
-            story_hash = hashlib.md5(story_title.encode()).hexdigest()[:8]
-            output_filename = f"story_{story_hash}.mp4"
+            # Video dosyasını kaydet - Hikaye ismi ile
+            # Dosya adı için güvenli karakterler (Windows uyumlu)
+            safe_title = "".join(c if c.isalnum() or c in (' ', '-', '_') else '_' for c in story_title)
+            safe_title = safe_title.strip().replace(' ', '_')[:50]  # Maksimum 50 karakter
+            output_filename = f"{safe_title}.mp4"
             output_path = os.path.join(self.output_dir, output_filename)
             
             print(f"💾 Video kaydediliyor: {output_filename}")
